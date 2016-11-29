@@ -7,5 +7,8 @@
 
 class String
   def every_other_char
+    new_arr = ""
+    new_arr = split(//).each_slice(2).map(&:first)
+    return new_arr.join("")
   end
 end
