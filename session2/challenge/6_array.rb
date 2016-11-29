@@ -14,3 +14,15 @@
 # prime_chars? ['ab', 'cd']       # => false
 # prime_chars? ['a', 'bcd']       # => false
 # prime_chars? ['a', 'b', 'cd']   # => false
+
+def prime_chars?(string)
+    chars = string.join.length
+    return false if chars <= 1
+    return true if chars == 2
+      n = 2
+      while n < chars do
+        return false if chars % n == 0
+        n += 1
+      end
+      true
+end
