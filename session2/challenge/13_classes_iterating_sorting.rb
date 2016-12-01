@@ -64,3 +64,64 @@
 # date docs are at: http://ruby-doc.org/core/classes/Date.html
 # don't spend too much time worrying about them :)
 require 'date'
+
+class User
+    
+    attr_accessor :username, :blogs
+
+    def initialize(username)
+        self.username = username
+        self.blogs ||= []
+    end
+  
+    def add_blog(date, text) # accepts a date and text
+        added_blog = Blog.new(date, self, text)
+        blogs << added_blog
+        self.blogs = blogs.sort_by { |blog| blog.date }.reverse
+        added_blog
+    end
+  
+
+    
+end
+
+class Blog # used to store an entry for your web log
+   
+    attr_accessor :text, :date, :user
+   
+    def initialize(date, user, text)
+       self.text = text
+       self.date = date
+       self.user = user
+    end
+   
+    def ==(other)
+        date == other.date && user == other.user && text == other.text
+    end
+    
+    def entry
+        "#{user.username} #{date}\n#{text}"
+    end
+   
+    def summary
+        text.split[0..9].join(' ')
+    end
+    
+end
+
+tester = User.new("treborb")
+
+puts tester.username
+
+tester.add_blog(Date.parse("2010-05-28") , "Sailor Mars is my favourite")
+tester.add_blog(Date.parse("2011-05-28") , "Sailor is my favourite")
+tester.add_blog(Date.parse("2012-05-28") , "Sailor Mars my favourite")
+
+puts tester.blogs
+
+tester2 = Blog.new Date.parse("2007-01-02"), tester, "Going dancing!"
+tester2 = Blog.new Date.parse("2006-01-02"), tester, "For the last time, fuck facebook >.<"
+
+puts tester.blogs
+
+puts tester2.summary
