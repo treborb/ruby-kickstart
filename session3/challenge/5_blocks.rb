@@ -16,3 +16,39 @@
 #   order << i
 # end
 # order # => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+
+def spiral_access(arrays, iteration=0, &block)
+    #require 'pry'
+    #gem 'pry-byebug'
+    #binding.pry
+    y_max = arrays.size - 1
+    x_max = arrays.first.size - 1
+    
+    # base step
+    return if y_max/2 < iteration || x_max/2 < iteration
+    
+    # top row
+    iteration.upto (x_max - iteration) do |i|
+        block.call arrays[iteration][i]
+    end
+    
+    # right column
+    (iteration + 1).upto (y_max - iteration) do |i|
+        block.call arrays[i][x_max - iteration]
+    end
+    
+    # bottom row
+    (x_max - 1 - iteration).downto iteration do |i|
+    block.call arrays[y_max-iteration][i]
+    end
+    
+    # left column
+    (y_max - 1 - iteration).downto (iteration + 1) do |i|
+    block.call arrays[i][iteration]
+    end
+    
+    # recursive step
+    iteration +=1
+    spiral_access(arrays, iteration, &block)
+    
+end
