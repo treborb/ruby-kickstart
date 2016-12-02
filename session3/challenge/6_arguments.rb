@@ -17,3 +17,37 @@
 # match_maker true,  true,  true, true, nil     # => [false, true]
 # match_maker true,  true,  true, 0, nil        # => [false, true]
 
+def match_maker(opposites_attract, *elements)
+  to_return = []
+  elements.each_slice 2 do |first, last|
+    first  = !!first
+    last   = !!last
+    result = if opposites_attract
+               first != last
+             else
+               first == last
+             end
+    to_return << result
+  end
+  to_return
+end
+
+# My failed attempt
+
+=begin
+
+def match_maker(*args)
+    falsey = [false, nil]
+    args[0] = true ? first_value = true : first_value = false
+    arr = []
+    (1...args.size).step(2) do |i|
+        if first_value == true
+                (args[i] == true && args[i+1] == true) || ( if args[i] == false && args[i+1] == false) ? arr << false : arr << true #? return true : return false
+        else
+                (args[i] == true && args[i+1] == true) || (args[i] == false && args[i+1] == false) ? arr << true : arr << false
+        end
+    end
+    return arr
+end
+
+=end
